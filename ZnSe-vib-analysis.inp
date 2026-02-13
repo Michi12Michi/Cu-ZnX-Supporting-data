@@ -1,0 +1,139 @@
+!&EXT_RESTART
+! RESTART_FILE_NAME /g100_work/IscrC_Photofix/ZnO-photo/OH/ZnS/ZnS_slab-1.restart
+!&END EXT_RESTART
+&FORCE_EVAL
+  METHOD         Quickstep
+  &DFT
+            BASIS_SET_FILE_NAME /g100_work/IscrC_MHP-DEF/BASIS/BASIS_MOLOPT.txt
+            BASIS_SET_FILE_NAME /g100_work/IscrC_MHP-DEF/ZnOSSe/BASIS_MOLOPT_UZH.txt
+            !POTENTIAL_FILE_NAME /g100_work/IscrC_MHP-DEF/BASIS/GTH_POTENTIALS.txt
+            POTENTIAL_FILE_NAME /g100_work/IscrC_MHP-DEF/ZnOSSe/POTENTIAL_UZH.txt
+            BASIS_SET_FILE_NAME /g100_work/IscrC_MHP-DEF/BASIS/BASIS_ADMM_MOLOPT.txt
+            BASIS_SET_FILE_NAME /g100_work/IscrC_MHP-DEF/BASIS/BASIS_ADMM.txt
+            WFN_RESTART_FILE_NAME /g100_work/IscrC_MHP-DEF/ZnOSSe/ZnSe/alpha_025/SLAB_def/S/subst/0/water-species/on_pristine/H°/Zn/H°/hybrid/sp/ZnSe_slab-RESTART.wfn
+!   CHARGE +1
+    UKS T
+   MULTIPLICITY 2
+     &POISSON
+     POISSON_SOLVER ANALYTIC
+     PERIODIC XY
+     &END POISSON
+    &MGRID
+      CUTOFF       600
+      REL_CUTOFF    60
+    &END MGRID
+    &QS
+    &END QS
+    &SCF
+      SCF_GUESS  RESTART
+      MAX_SCF    50
+      &OT
+        MINIMIZER       CG
+        PRECONDITIONER  FULL_SINGLE_INVERSE
+      &END
+      &OUTER_SCF
+        MAX_SCF  50
+      &END
+    &END SCF
+    &PRINT
+!       &MO LOW
+!          EIGENVALUES
+!          &EACH
+!              QS_SCF 0
+!          &END EACH
+!       &END MO
+!       &MO_CUBES
+!        NHOMO 1
+!       NLUMO 1
+!        WRITE_CUBE 
+!         &EACH
+!          MD 50
+!         &END EACH
+!      &END MO_CUBES
+!      &V_HARTREE_CUBE
+!      &END
+!       &TOT_DENSITY_CUBE
+!       &END
+!       &E_DENSITY_CUBE
+!       &END
+!       &HIRSHFELD
+!           FILENAME hirsh
+!       &END
+!   &PDOS
+!         FILENAME pdos
+!         NLUMO 100
+!     &END PDOS
+    &END PRINT
+&XC
+ &XC_FUNCTIONAL
+  &PBE
+!   PARAMETRIZATION REVPBE
+ &END PBE
+&END XC_FUNCTIONAL
+    &END XC
+  &END DFT
+  &SUBSYS
+    &CELL
+      ABC 11.33520 16.03039 54.04559
+      ALPHA_BETA_GAMMA 90.0 90.0 90.0
+      PERIODIC XY
+    &END CELL
+    &TOPOLOGY
+      COORD_FILE_NAME  /g100_work/IscrC_MHP-DEF/ZnOSSe/ZnSe/alpha_025/SLAB_def/S/subst/0/water-species/on_pristine/H°/Zn/H°/hybrid/sp/ZnSe_slab.xyz
+      COORD_FILE_FORMAT xyz
+    &END TOPOLOGY
+    &KIND H
+      BASIS_SET ORB DZVP-MOLOPT-PBE-GTH-q1
+      POTENTIAL GTH-PBE-q1
+    &END KIND
+    &KIND Zn
+      BASIS_SET DZVP-MOLOPT-PBE-GTH-q12
+      POTENTIAL GTH-PBE-q12
+    &END KIND
+    &KIND O
+      BASIS_SET DZVP-MOLOPT-PBE-GTH-q6
+      POTENTIAL GTH-PBE-q6
+    &END KIND
+    &KIND Cu
+      BASIS_SET DZVP-MOLOPT-PBE-GTH-q11
+      POTENTIAL GTH-PBE-q11
+    &END KIND
+    &KIND S
+      BASIS_SET DZVP-MOLOPT-PBE-GTH-q6
+      POTENTIAL GTH-PBE-q6
+    &END KIND
+    &KIND Se
+      BASIS_SET DZVP-MOLOPT-PBE-GTH-q6
+      POTENTIAL GTH-PBE-q6
+    &END KIND
+  &END SUBSYS
+&END FORCE_EVAL
+
+&VIBRATIONAL_ANALYSIS
+  NPROC_REP    12
+&END VIBRATIONAL_ANALYSIS
+
+&MOTION
+  &CONSTRAINT
+    &FIXED_ATOMS
+	  ! fix positions of all slab atoms
+      COMPONENTS_TO_FIX XYZ
+      LIST 1..192
+    &END FIXED_ATOMS
+  &END CONSTRAINT
+&GEO_OPT
+
+  OPTIMIZER BFGS
+    &BFGS
+     TRUST_RADIUS 0.1
+    &END
+&END GEO_OPT
+&END MOTION
+&GLOBAL
+  PROJECT      ZnSe_slab
+  RUN_TYPE     VIBRATIONAL_ANALYSIS 
+  PRINT_LEVEL  LOW
+&END GLOBAL
+
+
+
