@@ -1,0 +1,6 @@
+temperature = 298.0
+
+[[specimen]]
+name = "CuZnOH"
+frequencies = [342.039611,          1028.804446 ,         1566.526903]
+
